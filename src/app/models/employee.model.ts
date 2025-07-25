@@ -22,5 +22,6 @@ export enum EmployeeGroup {
   'Marketing',
   'Sales',
   'Digital',
-  'HR'
+  'HR',
+  'Operation'
 }

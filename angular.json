@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "staff-portal": {
+    "employee-portal": {
       "projectType": "application",
       "schematics": {},
       "root": "",

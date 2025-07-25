@@ -5,8 +5,9 @@ import { CommonModule } from "@angular/common";
 import { BreadcrumbComponent } from "../../../components/breadcrumb/breadcrumb.component";
 import { FormsModule } from "@angular/forms";
 import _moment from 'moment';
-import { RouterModule } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import { RupiahPipe } from "../../../pipes/rupiah.pipe";
+import Swal from 'sweetalert2';
 
 const moment = _moment
 
@@ -58,7 +59,7 @@ export class EmployeeListComponent implements OnInit {
   totalItems: number = 0
   searchText = ''
 
-  constructor(private employeeService: EmployeeService) {}
+  constructor(private employeeService: EmployeeService, private router: Router) {}
 
   ngOnInit(): void {
     if (!localStorage.getItem(this.employeesKey)) this.employeeService.loadEmployees()
@@ -72,11 +73,36 @@ export class EmployeeListComponent implements OnInit {
     console.log(this.employees)
   }
 
+  editEmployee(employee: Employee) {
+    Swal.fire({
+      title: 'Open '+ employee.firstName + ' detail to edit',
+      background: '#f5f236d8',
+      showCancelButton: true,
+      confirmButtonText: "Edit",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.router.navigate(['/employee/form'], {
+          queryParams: {
+            id: employee.id
+          }
+        })
+      }
+    })
+  }
+
   deleteEmployee(employee: Employee): void {
-    if (confirm('Are you sure want to delete '+ employee.firstName)) {
-      this.employeeService.deleteEmployee(employee.id)
-      this.loadEmployees()
-    }
+    Swal.fire({
+      title: 'Are you sure want to delete '+ employee.firstName,
+      color: '#fff',
+      background: '#f53636e7',
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.employeeService.deleteEmployee(employee.id)
+        this.loadEmployees()
+      }
+    })
   }
 
   updateDisplayedData() {

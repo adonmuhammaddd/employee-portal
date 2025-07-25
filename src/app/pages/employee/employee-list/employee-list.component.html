@@ -3,7 +3,7 @@
   <div class="flex items-center center justify-between">
     <app-breadcrumb title="Employee List" buttonTxt="Add Employee" buttonNavigate="/employee/form"/>
     <a href="/employee/form">
-      <button class="flex items-center justify-center px-5 py-3.5 text-sm gap-2 rounded-lg transition bg-[#465fff] text-white hover:bg-[#3641f5] disabled:bg-[#9cb9ff] hover:cursor-pointer">
+      <button class="flex items-center justify-center px-5 py-3.5 text-sm gap-2 rounded-lg transition bg-[#465fff] text-white hover:bg-[#f5a936] disabled:bg-[#9cb9ff] hover:cursor-pointer">
         Add Employee
       </button>
     </a>
@@ -89,8 +89,7 @@
                   : row[column.sortColumn] }}
                 <ng-container *ngIf="column.name === 'Action'">
                   <a
-                    [routerLink]="['/employee/form']"
-                    [queryParams]="{id: row.id}"
+                    (click)="editEmployee(row)"
                     class="flex items-center justify-center bg-amber-400 px-4 py-3 text-sm gap-2 rounded-lg transition ring-1 ring-inset ring-gray-300 hover:cursor-pointer hover:bg-amber-300"
                   >
                     <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">

@@ -2,15 +2,17 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Employee } from "../../../models/employee.model";
 import { EmployeeService } from "../../../services/employee.service";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { GlobalService } from "../../../services/global.service";
 import { BreadcrumbComponent } from "../../../components/breadcrumb/breadcrumb.component";
 import { CommonModule } from "@angular/common";
 import { RupiahPipe } from "../../../pipes/rupiah.pipe";
+import { NumberOnlyDirective } from "../../../directives/number-only.directive";
+import { RupiahMaskDirective } from "../../../directives/rupiah-mask.directive";
 
 @Component({
   selector: 'app-form-employee',
-  imports: [ FormsModule, BreadcrumbComponent, RouterModule, CommonModule, ReactiveFormsModule ],
+  imports: [ FormsModule, BreadcrumbComponent, RouterModule, CommonModule, ReactiveFormsModule, NumberOnlyDirective, RupiahMaskDirective ],
   templateUrl: './form-employee.component.html',
   styleUrl: './form-employee.component.css'
 })
@@ -91,7 +93,6 @@ export class FormEmployeeComponent implements OnInit {
     if (employeeId) {
       this.isEditing = true
       const employees = this.employeeService.getEmployees()
-    console.log(employees)
       const existingEmployee = employees.find(employee => employee.id === Number(employeeId))
       if (existingEmployee) {
         this.employeeForm.setValue(existingEmployee)

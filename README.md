@@ -30,7 +30,7 @@ npm install
 To start the development server:
 
 ```bash
-npm start
+npm run start
 ```
 
 ### Login Credential
