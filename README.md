@@ -8,9 +8,6 @@ Employee Portal. Manage Employee records using Tailwind CSS for styling and supp
 - Server-side rendering with Angular Universal
 - Tailwind CSS for modern, utility-first styling
 - Angular 19+ with strict TypeScript settings
-- Development and production configurations
-- SSR support with Express server
-- Script to generate fake employee data
 
 ## Getting Started
 
@@ -28,6 +25,12 @@ Make sure you have the following installed:
 
 ```bash
 npm install
+```
+### Login Credential
+
+```bash
+email : don.dev.exe@gmail.com
+password : passw0rd
 ```
 
 ### Development Server
