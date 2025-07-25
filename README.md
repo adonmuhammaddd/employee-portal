@@ -26,12 +26,6 @@ Make sure you have the following installed:
 ```bash
 npm install
 ```
-### Login Credential
-
-```bash
-email : don.dev.exe@gmail.com
-password : passw0rd
-```
 
 ### Development Server
 
@@ -39,6 +33,13 @@ To start the development server:
 
 ```bash
 npm start
+```
+
+### Login Credential
+
+```bash
+email : don.dev.exe@gmail.com
+password : passw0rd
 ```
 
 Navigate to `http://localhost:4200/`. The app will automatically reload on code changes.
