@@ -1,10 +1,13 @@
 # Employee Portal
 
 Employee Portal. Manage Employee records using Tailwind CSS for styling and supports Server-Side Rendering (SSR) using Angular Universal.
+Real Crud using dummy data in [employees.json]
 
 ## Features
 
-- Employee management interface
+- Add new Employee
+- Edit/View Employee Detail
+- Delete Employee
 - Server-side rendering with Angular Universal
 - Tailwind CSS for modern, utility-first styling
 - Angular 19+ with strict TypeScript settings
