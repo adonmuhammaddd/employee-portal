@@ -13,14 +13,12 @@ Employee Portal. Manage Employee records using Tailwind CSS for styling and supp
 
 ### Prerequisites
 
-Make sure you have the following installed:
-
 - [Node.js](https://nodejs.org/) (v16 or newer recommended)
 - [Angular CLI](https://angular.io/cli) (`npm install -g @angular/cli`)
 
 ### Installation
 
-1. Clone or download this repository.
+1. Clone or download this repository [Employee Portal](https://github.com/adonmuhammaddd/employee-portal.git).
 2. Install dependencies:
 
 ```bash
