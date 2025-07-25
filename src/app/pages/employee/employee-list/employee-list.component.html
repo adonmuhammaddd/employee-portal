@@ -12,7 +12,7 @@
   <div class="flex justify-between mb-4">
     <div>
       <select [(ngModel)]="itemsPerPage" (ngModelChange)="onEntriesChange()" class="h-11 appearance-none rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 pr-11 text-sm shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10">
-          <option class="text-gray-700" *ngFor="let entry of countEntries" [value]="entry">{{ entry }}</option>
+        <option class="text-gray-700" *ngFor="let entry of countEntries" [value]="entry">{{ entry }}</option>
       </select>
     </div>
     <div class="relative">
@@ -51,30 +51,30 @@
                       fill="currentColor"
                       viewBox="0 0 24 24"
                   >
-                      <path
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          *ngIf="sortDirection === null && sortColumn !== header.sortColumn"
-                          d="M5 13V1m0 0L1 5m4-4 4 4"
-                      />
-                      <path
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          *ngIf="sortDirection === 'asc' && sortColumn === header.sortColumn"
-                          d="M5 13V1m0 0L1 5m4-4 4 4"
-                      />
-                      <path
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          *ngIf="sortDirection === 'desc' && sortColumn === header.sortColumn"
-                          d="M5 1v12m0 0 4-4m-4 4L1 9"
-                      />
+                    <path
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        *ngIf="sortDirection === null && sortColumn !== header.sortColumn"
+                        d="M5 13V1m0 0L1 5m4-4 4 4"
+                    />
+                    <path
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        *ngIf="sortDirection === 'asc' && sortColumn === header.sortColumn"
+                        d="M5 13V1m0 0L1 5m4-4 4 4"
+                    />
+                    <path
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        *ngIf="sortDirection === 'desc' && sortColumn === header.sortColumn"
+                        d="M5 1v12m0 0 4-4m-4 4L1 9"
+                    />
                   </svg>
                 </a>
               </div>
@@ -82,20 +82,39 @@
           </tr>
         </thead>
           <tbody *ngIf="employees.length > 0" class="divide-y divide-gray-100">
-              <tr *ngFor="let row of displayedData; let i = index;">
-                  <td class="px-5 py-4 sm:px-6 text-start" *ngFor="let column of employeeColumns">
-                    {{ row[column.sortColumn] == 'description' ? momentjs(row[column.sortColumn]).format('DD-MMM-YYYY hh:mm:ss') : row[column.sortColumn] }}
-                  </td>
-              </tr>
+            <tr *ngFor="let row of displayedData; let i = index;">
+              <td class="px-5 py-4 sm:px-6 text-start" *ngFor="let column of employeeColumns">
+                {{ column.sortColumn == 'description' ? momentjs(row[column.sortColumn]).format('DD-MMM-YYYY hh:mm:ss')
+                  : column.sortColumn == 'basicSalary' ? (row[column.sortColumn] | rupiah)
+                  : row[column.sortColumn] }}
+                <ng-container *ngIf="column.name === 'Action'">
+                  <a
+                    [routerLink]="['/employee/form']"
+                    [queryParams]="{id: row.id}"
+                    class="flex items-center justify-center bg-amber-400 px-4 py-3 text-sm gap-2 rounded-lg transition ring-1 ring-inset ring-gray-300 hover:cursor-pointer hover:bg-amber-300"
+                  >
+                    <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.779 17.779 4.36 19.918 6.5 13.5m4.279 4.279 8.364-8.643a3.027 3.027 0 0 0-2.14-5.165 3.03 3.03 0 0 0-2.14.886L6.5 13.5m4.279 4.279L6.499 13.5m2.14 2.14 6.213-6.504M12.75 7.04 17 11.28"/>
+                    </svg>
+                  </a>
+                  <button
+                    class="flex items-center justify-center bg-red-400 px-4 py-3 text-sm gap-2 rounded-lg transition ring-1 ring-inset ring-gray-300 hover:cursor-pointer hover:bg-red-300"
+                    (click)="deleteEmployee(row)"
+                  >
+                    <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
+                    </svg>
+                  </button>
+                </ng-container>
+              </td>
+            </tr>
           </tbody>
           <tbody *ngIf="employees.length === 0">
-              <tr
-                  class="bg-white border-b text-xs text-center"
-              >
-                  <td class="py-4 font-semibold text-lg text-main-color" [attr.colspan]="employeeColumns.length">
-                      Tidak ada data dalam range waktu yang dipilih
-                  </td>
-              </tr>
+            <tr class="bg-white border-b text-xs text-center">
+              <td class="py-4 font-semibold text-lg text-main-color" [attr.colspan]="employeeColumns.length">
+                No data available
+              </td>
+            </tr>
           </tbody>
       </table>
     </div>

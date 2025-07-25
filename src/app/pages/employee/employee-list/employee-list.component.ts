@@ -5,16 +5,19 @@ import { CommonModule } from "@angular/common";
 import { BreadcrumbComponent } from "../../../components/breadcrumb/breadcrumb.component";
 import { FormsModule } from "@angular/forms";
 import _moment from 'moment';
+import { RouterModule } from "@angular/router";
+import { RupiahPipe } from "../../../pipes/rupiah.pipe";
 
 const moment = _moment
 
 @Component({
   selector: 'app-employee-list',
-  imports: [ CommonModule, BreadcrumbComponent, FormsModule ],
+  imports: [ CommonModule, BreadcrumbComponent, FormsModule, RouterModule, RupiahPipe ],
   templateUrl: './employee-list.component.html',
   styleUrl: './employee-list.component.css'
 })
 export class EmployeeListComponent implements OnInit {
+  private employeesKey = 'employees'
   momentjs: any = moment
   employees: Employee[] = []
   employeeColumns = [
@@ -27,7 +30,7 @@ export class EmployeeListComponent implements OnInit {
     { name: 'Status', sortColumn: 'status'},
     { name: 'Group', sortColumn: 'group'},
     { name: 'Description', sortColumn: 'description'},
-    { name: 'Active', sortColumn: ''}
+    { name: 'Action', sortColumn: ''}
   ]
   sortableColumns: string[] = [
     'username',
@@ -58,21 +61,22 @@ export class EmployeeListComponent implements OnInit {
   constructor(private employeeService: EmployeeService) {}
 
   ngOnInit(): void {
-    const existingEmployees = localStorage.getItem('employees')
-    if (!existingEmployees) this.employeeService.loadEmployees()
+    if (!localStorage.getItem(this.employeesKey)) this.employeeService.loadEmployees()
+    this.loadEmployees()
+  }
+
+  loadEmployees(): void {
     this.employees = this.employeeService.getEmployees()
     this.filteredData = this.employees
     this.updateDisplayedData()
     console.log(this.employees)
   }
 
-  loadEmployees(): void {
-    this.employees = this.employeeService.getEmployees()
-  }
-
-  deleteEmployee(id: number): void {
-    this.employeeService.deleteEmployee(id)
-    this.loadEmployees()
+  deleteEmployee(employee: Employee): void {
+    if (confirm('Are you sure want to delete '+ employee.firstName)) {
+      this.employeeService.deleteEmployee(employee.id)
+      this.loadEmployees()
+    }
   }
 
   updateDisplayedData() {
@@ -87,10 +91,10 @@ export class EmployeeListComponent implements OnInit {
   sort(column: string) {
 
     if (this.sortColumn === column) {
-        this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc'
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc'
     } else {
-        this.sortColumn = column
-        this.sortDirection = 'asc'
+      this.sortColumn = column
+      this.sortDirection = 'asc'
     }
 
     this.filteredData.sort((a: any, b: any) => {
@@ -99,9 +103,9 @@ export class EmployeeListComponent implements OnInit {
       let comparison = 0
 
       if (valueA > valueB) {
-          comparison = 1
+        comparison = 1
       } else if (valueA < valueB) {
-          comparison = -1
+        comparison = -1
       }
 
       return this.sortDirection === 'asc' ? comparison : -comparison
@@ -111,14 +115,14 @@ export class EmployeeListComponent implements OnInit {
     this.updateDisplayedData()
 
     Object.keys(this.sortableColumns).forEach((key: any) => {
-        if (key !== column) {
-            this.sortableColumns[key] = ''
-        }
+      if (key !== column) {
+        this.sortableColumns[key] = ''
+      }
     })
   }
 
   onEntriesChange() {
-      this.updateDisplayedData()
+    this.updateDisplayedData()
   }
 
   getDisplayedPageNumbers(): number[] {
@@ -130,34 +134,34 @@ export class EmployeeListComponent implements OnInit {
     startPage = Math.max(1, endPage - totalPageNumbers + 1)
 
     if (startPage > 1) {
-        displayedPageNumbers.push(1)
-        if (startPage > 2) {
-            displayedPageNumbers.push(-1)
-        }
+      displayedPageNumbers.push(1)
+      if (startPage > 2) {
+        displayedPageNumbers.push(-1)
+      }
     }
 
     for (let i = startPage; i <= endPage; i++) {
-        displayedPageNumbers.push(i)
+      displayedPageNumbers.push(i)
     }
 
     if (endPage < this.totalPages) {
-        if (endPage < this.totalPages - 1) {
-            displayedPageNumbers.push(-1)
-        }
-        displayedPageNumbers.push(this.totalPages)
+      if (endPage < this.totalPages - 1) {
+        displayedPageNumbers.push(-1)
+      }
+      displayedPageNumbers.push(this.totalPages)
     }
 
     return displayedPageNumbers
   }
 
   filterData() {
-      this.filteredData = this.employees.filter((item: any) => {
-          return this.sortableColumns.some((column) =>
-              String(item[column]).toLowerCase().includes(this.searchText.toLowerCase())
-          )
-      })
-      this.currentPage = 1
-      this.updateDisplayedData()
+    this.filteredData = this.employees.filter((item: any) => {
+      return this.sortableColumns.some((column) =>
+        String(item[column]).toLowerCase().includes(this.searchText.toLowerCase())
+      )
+    })
+    this.currentPage = 1
+    this.updateDisplayedData()
   }
 
   changePage(page: number) {
@@ -167,15 +171,15 @@ export class EmployeeListComponent implements OnInit {
 
   previousPage() {
     if (this.currentPage > 1) {
-        this.currentPage--
-        this.updateDisplayedData()
+      this.currentPage--
+      this.updateDisplayedData()
     }
   }
 
   nextPage() {
     if (this.currentPage < this.totalPages) {
-        this.currentPage++
-        this.updateDisplayedData()
+      this.currentPage++
+      this.updateDisplayedData()
     }
   }
 }

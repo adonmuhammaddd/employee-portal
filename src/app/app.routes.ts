@@ -4,16 +4,19 @@ import { SignInComponent } from "./pages/auth/sign-in/sign-in.component";
 import { ContentLayoutComponent } from "./layout/content-layout/content-layout.component";
 import { EmployeeListComponent } from "./pages/employee/employee-list/employee-list.component";
 import { FormEmployeeComponent } from "./pages/employee/form-employee/form-employee.component";
+import { AuthGuard } from "./guards/auth.guard";
+import { ReverseAuthGuard } from "./guards/reverse-auth.guard";
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: '/auth/sign-in',
+    redirectTo: 'auth',
     pathMatch: 'full'
   },
   {
     path: 'auth',
     component: AuthLayoutComponent,
+    canActivate: [ReverseAuthGuard],
     children: [
       {
         path: '',
@@ -28,6 +31,7 @@ export const routes: Routes = [
   },
   {
     path: 'employee',
+    canActivate: [AuthGuard],
     component: ContentLayoutComponent,
     children: [
       {

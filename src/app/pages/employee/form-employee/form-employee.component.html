@@ -1,66 +1,117 @@
+<div class="flex flex-col gap-y-5">
+
+  <div class="flex items-center center justify-between">
+    <app-breadcrumb [title]="isEditing ? 'Edit Employee' : 'Add Employee'" [buttonTxt]="isEditing ? 'Edit Employee' : 'Add Employee'" buttonNavigate="/employee"/>
+    <a href="/employee">
+      <button class="flex items-center justify-center px-5 py-3.5 text-sm gap-2 rounded-lg transition bg-[#465fff] text-white hover:bg-[#3641f5] disabled:bg-[#9cb9ff] hover:cursor-pointer">
+        Back
+      </button>
+    </a>
+  </div>
+</div>
 <div class="p-4">
   <h2 class="text-xl font-semibold mb-4">{{ isEditing ? 'Edit Employee' : 'Add Employee' }}</h2>
-
-  <div>
-    <input
-      [(ngModel)]="employee.username"
-      placeholder="Enter Username"
-      class="p-2 border border-gray-300 rounded mb-2 w-full"
-    />
-    <input
-      [(ngModel)]="employee.firstName"
-      placeholder="Enter First Name"
-      class="p-2 border border-gray-300 rounded mb-2 w-full"
-    />
-    <input
-      [(ngModel)]="employee.lastName"
-      placeholder="Enter Last Name"
-      class="p-2 border border-gray-300 rounded mb-2 w-full"
-    />
-    <input
-      type="email"
-      [(ngModel)]="employee.email"
-      placeholder="Enter Email"
-      class="p-2 border border-gray-300 rounded mb-2 w-full"
-    />
-    <input
-      [(ngModel)]="employee.birthDate"
-      type="date"
-      class="p-2 border border-gray-300 rounded mb-2 w-full"
-    />
-    <input
-      [(ngModel)]="employee.basicSalary"
-      placeholder="12000"
-      type="text"
-      class="p-2 border border-gray-300 rounded mb-2 w-full"
-    />
-    <select
-      [(ngModel)]="employee.status"
-      class="p-2 border border-gray-300 rounded mb-2 w-full"
-    >
-      <option value="">--- Choose Status ---</option>
-      <option value="Contract">Contract</option>
-      <option value="Full Time">Full Time</option>
-    </select>
-
-    <select
-      [(ngModel)]="employee.group"
-      class="p-2 border border-gray-300 rounded mb-2 w-full"
-    >
-      <option value="">--- Choose Group ---</option>
-      <option value="IT">IT</option>
-      <option value="Finance">Finance</option>
-      <option value="Marketing">Marketing</option>
-      <option value="Sales">Sales</option>
-      <option value="Digital">Digital</option>
-      <option value="HR">HR</option>
-    </select>
-    <button
-      (click)="saveEmployee()"
-      class="bg-blue-500 text-white p-2 rounded w-full hover:cursor-pointer"
-    >
-      {{ isEditing ? 'Update' : 'Add' }} Employee
-    </button>
-  </div>
+  <form [formGroup]="employeeForm" (ngSubmit)="saveEmployee()">
+    <div>
+      <input
+        id="username"
+        formControlName="username"
+        placeholder="Enter Username"
+        class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10"
+      />
+      <div *ngIf="username?.invalid && (username?.touched || username?.dirty)" class="text-sm text-red-500 mt-1">
+        <div *ngIf="username?.errors?.['required']">Username is required.</div>
+      </div>
+      <input
+        id="firstName"
+        formControlName="firstName"
+        placeholder="Enter First Name"
+        class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10"
+      />
+      <div *ngIf="firstName?.invalid && (firstName?.touched || firstName?.dirty)" class="text-sm text-red-500 mt-1">
+        <div *ngIf="firstName?.errors?.['required']">First Name is required.</div>
+      </div>
+      <input
+        id="lastName"
+        formControlName="lastName"
+        placeholder="Enter Last Name"
+        class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10"
+      />
+      <div *ngIf="lastName?.invalid && (lastName?.touched || lastName?.dirty)" class="text-sm text-red-500 mt-1">
+        <div *ngIf="lastName?.errors?.['required']">Last Name is required.</div>
+      </div>
+      <input
+        type="email"
+        placeholder="Enter Email"
+        formControlName="email"
+        class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10"
+      />
+      <div *ngIf="email?.invalid && (email?.touched || email?.dirty)" class="text-sm text-red-500 mt-1">
+        <div *ngIf="email?.errors?.['required']">Email is required.</div>
+        <div *ngIf="email?.errors?.['email']">Please enter a valid email.</div>
+      </div>
+      <input
+        id="birthDate"
+        formControlName="birthDate"
+        type="date"
+        [max]="maxDate | date:'yyyy-MM-dd'"
+        class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10"
+      />
+      <div *ngIf="birthDate?.invalid && (birthDate?.touched || birthDate?.dirty)" class="text-sm text-red-500 mt-1">
+        <div *ngIf="birthDate?.errors?.['required']">Birth Date is required.</div>
+      </div>
+      <input
+        id="basicSalary"
+        formControlName="basicSalary"
+        type="text"
+        class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10"
+      />
+      <div *ngIf="basicSalary?.invalid && (basicSalary?.touched || basicSalary?.dirty)" class="text-sm text-red-500 mt-1">
+        <div *ngIf="basicSalary?.errors?.['required']">Basic Salary is required.</div>
+      </div>
+      <select
+        id="status"
+        formControlName="status"
+        class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 mb-4"
+      >
+        <option value="">--- Choose Status ---</option>
+        <option value="Contract">Contract</option>
+        <option value="Full Time">Full Time</option>
+      </select>
+      <div *ngIf="status?.invalid && (status?.touched || status?.dirty)" class="text-sm text-red-500 mt-1">
+        <div *ngIf="status?.errors?.['required']">Status is required.</div>
+      </div>
+      <select
+        id="group"
+        formControlName="group"
+        class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10"
+      >
+        <option value="">--- Choose Group ---</option>
+        <option value="IT">IT</option>
+        <option value="Finance">Finance</option>
+        <option value="Marketing">Marketing</option>
+        <option value="Sales">Sales</option>
+        <option value="Digital">Digital</option>
+        <option value="HR">HR</option>
+      </select>
+      <div *ngIf="group?.invalid && (group?.touched || group?.dirty)" class="text-sm text-red-500 mt-1">
+        <div *ngIf="group?.errors?.['required']">Group is required.</div>
+      </div>
+      <div class="flex flex-row justify-between gap-4">
+        <button
+          [routerLink]="['/employee']"
+          class="flex items-center justify-center px-4 py-3 text-sm gap-2 rounded-lg transition ring-1 ring-inset ring-gray-300 hover:bg-[#d7d7da] hover:cursor-pointer"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="flex items-center justify-center px-5 py-3.5 text-sm gap-2 rounded-lg transition bg-[#465fff] text-white hover:bg-[#3641f5] disabled:bg-[#9cb9ff] hover:cursor-pointer"
+        >
+          Save Employee
+        </button>
+      </div>
+    </div>
+  </form>
 </div>
 

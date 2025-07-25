@@ -26,7 +26,7 @@ export class EmployeeService {
 
   addEmployee(employee: Employee): void {
     const employees = this.getEmployees()
-    employee.id = employees.length ? Math.max(...employees.map(e => e.id)) + 1 : 1;
+    employee.id = employees.length ? Math.max(...employees.map(e => e.id)) + 1 : 1
     employee.description = moment().toDate()
     employees.push(employee)
     localStorage.setItem(this.employeesKey, JSON.stringify(employees))

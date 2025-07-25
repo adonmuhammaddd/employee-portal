@@ -21,7 +21,7 @@
                       <label
                         class="mb-1.5 block text-sm font-medium text-gray-700"
                       >
-                        Email<span class="text-error-500">*</span>
+                        Email<span>*</span>
                       </label>
                       <input
                         type="email"
@@ -100,12 +100,12 @@
 
                     <div>
                       <button
+                        type="submit"
                         class="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-sky-500 shadow-theme-xs hover:bg-sky-600 hover:cursor-pointer"
                       >
                         Sign In
                       </button>
                     </div>
-                    <app-alert *ngIf="alertShow" [show]="alertShow" [variant]="alertVariant" [title]="alertTitle" [message]="alertMessage" [duration]="alertDuration" />
                   </div>
                 </form>
               </div>

@@ -1,59 +1,108 @@
-# StaffPortal
+# Employee Portal
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.15.
+Employee Portal. Manage Employee records using Tailwind CSS for styling and supports Server-Side Rendering (SSR) using Angular Universal.
 
-## Development server
+## Features
 
-To start a local development server, run:
+- Employee management interface
+- Server-side rendering with Angular Universal
+- Tailwind CSS for modern, utility-first styling
+- Angular 19+ with strict TypeScript settings
+- Development and production configurations
+- SSR support with Express server
+- Script to generate fake employee data
+
+## Getting Started
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+- [Node.js](https://nodejs.org/) (v16 or newer recommended)
+- [Angular CLI](https://angular.io/cli) (`npm install -g @angular/cli`)
+
+### Installation
+
+1. Clone or download this repository.
+2. Install dependencies:
 
 ```bash
-ng serve
+npm install
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Development Server
 
-## Code scaffolding
+To start the development server:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+```bash
+npm start
+```
+
+Navigate to `http://localhost:4200/`. The app will automatically reload on code changes.
+
+### Server-Side Rendering (SSR)
+
+To build and run the SSR version:
+
+```bash
+npm run build:ssr
+npm run serve:ssr:employee-portal
+```
+
+This runs the app with Express.js for SSR support.
+
+### Code Generation
+
+Generate new Angular elements using Angular CLI:
 
 ```bash
 ng generate component component-name
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Build
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+Build the project for production:
 
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### Running Tests
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Run unit tests using Karma:
 
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
+### Generating Fake Employee Data
 
-For end-to-end (e2e) testing, run:
+To populate the app with test data:
 
 ```bash
-ng e2e
+npm run generate-employee
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+This runs the `src/generateFakeEmpl.js` script.
 
-## Additional Resources
+## Project Structure
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- `src/` – Main application source
+- `dist/` – Build output
+- `public/` – Static assets
+- `tailwind.config.js` – Tailwind CSS configuration
+- `angular.json` – Angular CLI configuration
+- `tsconfig*.json` – TypeScript configurations
+
+## Technologies Used
+
+- Angular 19.2+
+- Tailwind CSS
+- Express.js (for SSR)
+- TypeScript
+- RxJS
+- Moment.js
+
+## License
+
+This project is licensed under the MIT License.

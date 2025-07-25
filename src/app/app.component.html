@@ -1,4 +1,4 @@
 
 <router-outlet />
 
-<app-alert *ngIf="alertShow" [show]="globalService.alertShow" [variant]="globalService.alertVariant" [title]="globalService.alertTitle" [message]="globalService.alertMessage" [duration]="globalService.alertDuration" />
+<app-alert *ngIf="globalService.alertShow" [show]="globalService.alertShow" [variant]="globalService.alertVariant" [title]="globalService.alertTitle" [message]="globalService.alertMessage" [duration]="globalService.alertDuration" />

@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component } from '@angular/core';
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: 'app-navbar',
@@ -13,9 +14,13 @@ export class NavbarComponent {
 
   isDropdownOpen: boolean = false
 
-  constructor() {}
+  constructor(private authService: AuthService) {}
 
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen
+  }
+
+  signOut() {
+    this.authService.signOut()
   }
 }

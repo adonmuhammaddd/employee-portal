@@ -15,5 +15,8 @@ export class GlobalService {
 
   showAlert() {
     this.alertShow = !this.alertShow
+    setTimeout(() => {
+      this.alertShow = !this.alertShow
+    }, this.alertDuration)
   }
 }
