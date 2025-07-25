@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Employee } from "../models/employee.model";
+import _moment from 'moment';
+
+const moment = _moment
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +13,12 @@ export class EmployeeService {
 
   constructor() { }
 
+
+  loadEmployees(): void {
+    const fakeData = require('../../employees.json');
+    localStorage.setItem(this.employeesKey, JSON.stringify(fakeData));
+  }
+
   getEmployees(): Employee[] {
     const employees = localStorage.getItem(this.employeesKey)
     return employees ? JSON.parse(employees) : []
@@ -17,7 +26,8 @@ export class EmployeeService {
 
   addEmployee(employee: Employee): void {
     const employees = this.getEmployees()
-    employee.id = employees.length ? Math.max(...employees.map(e => e.id)) + 1 : 1
+    employee.id = employees.length ? Math.max(...employees.map(e => e.id)) + 1 : 1;
+    employee.description = moment().toDate()
     employees.push(employee)
     localStorage.setItem(this.employeesKey, JSON.stringify(employees))
   }
@@ -27,13 +37,14 @@ export class EmployeeService {
     const index = employees.findIndex(employee => employee.id === updatedEmployee.id)
     if (index !== -1) {
       employees[index] = updatedEmployee
+      employees[index].description = moment().toDate()
       localStorage.setItem(this.employeesKey, JSON.stringify(employees))
     }
   }
 
   deleteEmployee(id: number): void {
     const employees = this.getEmployees();
-    const updatedEmployees = employees.filter(user => user.id !== id);
+    const updatedEmployees = employees.filter(employee => employee.id !== id);
     localStorage.setItem(this.employeesKey, JSON.stringify(updatedEmployees));
   }
 }

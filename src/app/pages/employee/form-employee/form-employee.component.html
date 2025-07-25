@@ -1,0 +1,66 @@
+<div class="p-4">
+  <h2 class="text-xl font-semibold mb-4">{{ isEditing ? 'Edit Employee' : 'Add Employee' }}</h2>
+
+  <div>
+    <input
+      [(ngModel)]="employee.username"
+      placeholder="Enter Username"
+      class="p-2 border border-gray-300 rounded mb-2 w-full"
+    />
+    <input
+      [(ngModel)]="employee.firstName"
+      placeholder="Enter First Name"
+      class="p-2 border border-gray-300 rounded mb-2 w-full"
+    />
+    <input
+      [(ngModel)]="employee.lastName"
+      placeholder="Enter Last Name"
+      class="p-2 border border-gray-300 rounded mb-2 w-full"
+    />
+    <input
+      type="email"
+      [(ngModel)]="employee.email"
+      placeholder="Enter Email"
+      class="p-2 border border-gray-300 rounded mb-2 w-full"
+    />
+    <input
+      [(ngModel)]="employee.birthDate"
+      type="date"
+      class="p-2 border border-gray-300 rounded mb-2 w-full"
+    />
+    <input
+      [(ngModel)]="employee.basicSalary"
+      placeholder="12000"
+      type="text"
+      class="p-2 border border-gray-300 rounded mb-2 w-full"
+    />
+    <select
+      [(ngModel)]="employee.status"
+      class="p-2 border border-gray-300 rounded mb-2 w-full"
+    >
+      <option value="">--- Choose Status ---</option>
+      <option value="Contract">Contract</option>
+      <option value="Full Time">Full Time</option>
+    </select>
+
+    <select
+      [(ngModel)]="employee.group"
+      class="p-2 border border-gray-300 rounded mb-2 w-full"
+    >
+      <option value="">--- Choose Group ---</option>
+      <option value="IT">IT</option>
+      <option value="Finance">Finance</option>
+      <option value="Marketing">Marketing</option>
+      <option value="Sales">Sales</option>
+      <option value="Digital">Digital</option>
+      <option value="HR">HR</option>
+    </select>
+    <button
+      (click)="saveEmployee()"
+      class="bg-blue-500 text-white p-2 rounded w-full hover:cursor-pointer"
+    >
+      {{ isEditing ? 'Update' : 'Add' }} Employee
+    </button>
+  </div>
+</div>
+

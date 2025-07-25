@@ -10,3 +10,17 @@ export interface Employee {
   group: string
   description: Date
 }
+
+export enum EmployeeStatus {
+  'Contract',
+  'Fulltime'
+}
+
+export enum EmployeeGroup {
+  'IT',
+  'Finance',
+  'Marketing',
+  'Sales',
+  'Digital',
+  'HR'
+}

@@ -1,1 +1,135 @@
-<p>employee-list works!</p>
+<div class="flex flex-col gap-y-5">
+
+  <div class="flex items-center center justify-between">
+    <app-breadcrumb title="Employee List" buttonTxt="Add Employee" buttonNavigate="/employee/form"/>
+    <a href="/employee/form">
+      <button class="flex items-center justify-center px-5 py-3.5 text-sm gap-2 rounded-lg transition bg-[#465fff] text-white hover:bg-[#3641f5] disabled:bg-[#9cb9ff] hover:cursor-pointer">
+        Add Employee
+      </button>
+    </a>
+  </div>
+
+  <div class="flex justify-between mb-4">
+    <div>
+      <select [(ngModel)]="itemsPerPage" (ngModelChange)="onEntriesChange()" class="h-11 appearance-none rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 pr-11 text-sm shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10">
+          <option class="text-gray-700" *ngFor="let entry of countEntries" [value]="entry">{{ entry }}</option>
+      </select>
+    </div>
+    <div class="relative">
+      <input
+        type="text"
+        class="w-[250px] h-11 rounded-lg border appearance-none px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3 bg-transparent text-gray-800 border-gray-300 focus:border-brand-300 focus:ring-brand-500/20"
+        placeholder="Search"
+        [(ngModel)]="searchText"
+        (ngModelChange)="filterData()"
+      >
+    </div>
+  </div>
+
+  <div class="overflow-hidden rounded-xl border border-gray-200 bg-white">
+    <div class="max-w-full overflow-x-auto">
+      <table class="w-full text-left">
+        <thead class="border-b border-gray-100">
+          <tr>
+            <th
+              scope="col"
+              class="px-5 py-3 font-medium text-gray-500 text-center text-sm cursor-pointer"
+              *ngFor="let header of employeeColumns"
+              (click)="sort(header.sortColumn)"
+            >
+              <div class="flex items-center justify-center">
+                {{header.name}}
+                <a>
+                  <svg
+                      class="w-5 h-5 ml-2"
+                      [ngClass]="{
+                          'text-gray-600': sortColumn === header.sortColumn && sortDirection === 'asc',
+                          'text-gray-400': sortColumn !== header.sortColumn
+                      }"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                  >
+                      <path
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          *ngIf="sortDirection === null && sortColumn !== header.sortColumn"
+                          d="M5 13V1m0 0L1 5m4-4 4 4"
+                      />
+                      <path
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          *ngIf="sortDirection === 'asc' && sortColumn === header.sortColumn"
+                          d="M5 13V1m0 0L1 5m4-4 4 4"
+                      />
+                      <path
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          *ngIf="sortDirection === 'desc' && sortColumn === header.sortColumn"
+                          d="M5 1v12m0 0 4-4m-4 4L1 9"
+                      />
+                  </svg>
+                </a>
+              </div>
+            </th>
+          </tr>
+        </thead>
+          <tbody *ngIf="employees.length > 0" class="divide-y divide-gray-100">
+              <tr *ngFor="let row of displayedData; let i = index;">
+                  <td class="px-5 py-4 sm:px-6 text-start" *ngFor="let column of employeeColumns">
+                    {{ row[column.sortColumn] == 'description' ? momentjs(row[column.sortColumn]).format('DD-MMM-YYYY hh:mm:ss') : row[column.sortColumn] }}
+                  </td>
+              </tr>
+          </tbody>
+          <tbody *ngIf="employees.length === 0">
+              <tr
+                  class="bg-white border-b text-xs text-center"
+              >
+                  <td class="py-4 font-semibold text-lg text-main-color" [attr.colspan]="employeeColumns.length">
+                      Tidak ada data dalam range waktu yang dipilih
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="flex justify-between items-center mt-4 text-sm text-gray-700">
+    <span>
+      Showing {{displayedData.length}} of {{employees.length}} rows
+    </span>
+
+    <div class="flex items-center gap-2">
+
+      <button
+        class="flex items-center justify-center px-4 py-3 text-sm gap-2 rounded-lg transition ring-1 ring-inset ring-gray-300"
+        [ngClass]="currentPage === 1 ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-700 hover:cursor-pointer hover:bg-gray-50'"
+        [disabled]="currentPage === 1"
+        (click)="previousPage()"
+      >
+        <svg class="w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14 8-4 4 4 4"/>
+        </svg>
+      </button>
+      <span>{{currentPage}} of {{totalPages}}</span>
+      <button
+        class="flex items-center justify-center px-4 py-3 text-sm gap-2 rounded-lg transition ring-1 ring-inset ring-gray-300"
+        [ngClass]="currentPage === totalPages ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-700 hover:cursor-pointer hover:bg-gray-50'"
+        [disabled]="currentPage === totalPages"
+        (click)="nextPage()"
+      >
+        <svg class="w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m10 16 4-4-4-4"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+
